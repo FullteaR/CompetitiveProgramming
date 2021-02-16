@@ -53,7 +53,7 @@ void UnionFind::Union(long x, long y){
  }
 
 
-//dijkstra tree
+//dijkstra search
 /*
 入力
 v: 隣接要素のsetを持つ配列。v[i]はi番目の頂点から行くことができる頂点を集めたset。
