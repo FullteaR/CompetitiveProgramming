@@ -14,42 +14,58 @@ using namespace std;
    bool uf.Same(long x, long y);
  */
 //https://atcoder.jp/contests/atc001/tasks/unionfind_a
-class UnionFind {//without using rank(O(log n))
+
+class UnionFind { // without using rank(O(log n))
 public:
-UnionFind(long n);
-bool Same(long x, long y);
-void Union(long x, long y);
+    UnionFind(long n);
+    bool Same(long x, long y);
+    void Union(long x, long y);
+    long Count(long x);
+
 private:
-long * parents;
-long Root(long x);
+    long *parents;
+    long Root(long x);
+    long *counts;
+    long n;
 };
 
-UnionFind::UnionFind(long n){
-        parents = new long[n];
-        for(long i=0; i<n; i++) {
-                parents[i]=i;
-        }
+UnionFind::UnionFind(long n) {
+    parents = new long[n];
+    counts = new long[n];
+    for (long i = 0; i < n; i++) {
+        parents[i] = i;
+        counts[i] = 1;
+    }
+    this->n = n;
 }
 
-long UnionFind::Root(long x){
-        if(parents[x]==x) {
-                return x;
-        }
-        else{
-                return parents[x]=Root(parents[x]);
-        }
+long UnionFind::Root(long x) {
+    if (parents[x] == x) {
+        return x;
+    }
+    else {
+        return parents[x] = Root(parents[x]);
+    }
 }
 
-bool UnionFind::Same(long x, long y){
-        return Root(x)==Root(y);
+bool UnionFind::Same(long x, long y) {
+    return Root(x) == Root(y);
 }
 
-void UnionFind::Union(long x, long y){
-        x = Root(x);
-        y = Root(y);
-        if(x==y) return;
-        parents[x]=y;
+void UnionFind::Union(long x, long y) {
+    x = Root(x);
+    y = Root(y);
+    if (x == y)
         return;
+    parents[x] = y;
+    long total = counts[x]+counts[y];
+    counts[x] = total;
+    counts[y] = total;
+    return;
+}
+
+long UnionFind::Count(long x) {
+    return counts[Root(x)];
 }
 
 //dijkstra search
